@@ -14,33 +14,35 @@
     </style>
 </head>
 <body>
-<ul id="messages"></ul>
-<form action="">
-    <input id="m" autocomplete="off" /><button>Send</button>
-</form>
+    <ul id="messages"></ul>
+    <form action="">
+        <input id="m" autocomplete="off"/><button>Send</button>
+    </form>
 
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
-<script>
-    $(function () {
-        var socket = io(window.location.pathname);
-        $('form').submit(function(){
-            socket.emit('chat message', $('#m').val());
-            $('#m').val('');
-            return false;
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        $(function () {
+            var socket = io(window.location.pathname);
+
+            $('form').submit(function(){
+                socket.emit('sendMessage', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+            socket.on('message', function(msg){
+                writeMessage(msg);
+            });
+            socket.on('connection', function (data) {
+                writeMessage(data);
+                //socket.emit('my other event', { my: 'data' });
+            });
         });
-        socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
-        });
-        socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
-        });
-        socket.on('hi', function (data) {
-            $('#messages').append($('<li>').text(data));
-            socket.emit('my other event', { my: 'data' });
-        });
-    });
-</script>
+
+        function writeMessage(message){
+            $('#messages').append($('<li>').text(message));
+        }
+    </script>
 </body>
 </html>
