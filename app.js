@@ -6,7 +6,7 @@ app.get('/level/*', function(req, res){
     nsp = io.of(req.originalUrl);
     nsp.on('connection', function(socket){
         if (!socket.sentMydata) {
-            socket.broadcast.emit('connection', 'user x connected !');//Envoi a tous que l'utilisateur s'est connecté
+            socket.broadcast.emit('connection', 'user x connected !'); //Envoi a tous que l'utilisateur s'est connecté
             socket.on('sendMessage', function(msg){
                 nsp.emit('message', msg);
             });
