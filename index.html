@@ -12,6 +12,7 @@
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages li { padding: 5px 10px; }
         #messages li:nth-child(odd) { background: #eee; }
+        #messages span { font-size: 10px; color: grey; }
     </style>
 </head>
 <body>
@@ -43,9 +44,15 @@
             });
         });
 
+
+
         function writeMessage(message){
+            var d = new Date();
+            var h = d.getHours();
+            var m = d.getMinutes();
+            var s = d.getSeconds();
             if(message != ""){
-                $('#messages').prepend($('<li>').text(message));
+                $('#messages').prepend($('<li>').html('<span>'+h+'h'+m+'</span> '+message));
             }
         }
     </script>
